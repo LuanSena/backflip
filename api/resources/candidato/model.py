@@ -1,6 +1,7 @@
 from flask_restful import fields
 
 candidato_fields = {
+    'id':       fields.Integer,
     'nome':     fields.String,
     'idade':    fields.Integer,
     'email':    fields.String,
