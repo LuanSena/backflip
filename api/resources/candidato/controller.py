@@ -27,6 +27,10 @@ class CandidatoController(Resource):
         if candidato is None:
             abort(404)
 
+        obs_list = pg_db_manager.select_candidato_obs(candidato_id)
+
+        candidato.obs = obs_list
+
         return candidato
 
     def post(self, candidato_id):
@@ -53,3 +57,14 @@ class CandidatoController(Resource):
     def update_attr(self, candidato, content, field):
         if field in content and content[field] is not None: 
             setattr(candidato, field, content[field])
+
+class CandidatoStatusController(Resource):
+    def __init__(self):
+        pass
+
+    def post(self, candidato_id):
+        content = request.get_json()
+        candidato_status = content['status']
+        candidato_obs = content['obs']
+        pg_db_manager.update_candidato_status(candidato_id, candidato_status, candidato_obs)
+        return

@@ -13,7 +13,8 @@ candidato_fields = {
     'area':     fields.String,
     'subarea':  fields.String,
     'status':   fields.String,
-    'tags':     fields.String
+    'tags':     fields.String,
+    'obs':      fields.List(fields.String)
 }
 
 class Candidato(object):

@@ -34,14 +34,14 @@ def insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, te
 
 def update_candidato_status(id: int, status: int, obs):
     query_status = """
-                UPDATE candidato SET status = {status} where = {id};
+                UPDATE candidato SET status = {status} where id = {id};
             """
 
     query_obs = """
                 INSERT INTO 
                         candidato_obs (candidato_id, obs)
                 VALUES 
-                    ({id}, "Novo status:{status}, {obs}");
+                    ({id}, 'Novo status:{status}, {obs}');
             """
     try:
         conn = pg_connection.get_db_connection()
@@ -143,3 +143,24 @@ def map_candidato(row):
     candidato.status = row['status']
     candidato.tags = row['tags'].strip()
     return candidato
+
+def select_candidato_obs(candidato_id):
+    try:
+        conn = pg_connection.get_db_connection()
+        
+        query = "SELECT * FROM candidato_obs WHERE candidato_id = {id};"
+
+        cursor = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
+        cursor.execute(query.format(id=candidato_id))
+
+        obs_list = []
+
+        for row in cursor:
+           obs_list.append(row['obs'].strip())
+
+        return obs_list
+    except Exception as e:
+        print(str(e))
+    finally:
+        cursor.close()
+        conn.close()
