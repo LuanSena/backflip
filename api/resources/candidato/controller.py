@@ -37,6 +37,30 @@ class CandidatoController(Resource):
 
         return candidato
 
+    def put(self):
+        content = request.get_json()
+        if "headers" in content:
+            mail_from = content['envelope']['from']
+            mail_to = content['envelope']['to']
+            mail_text = content['plain']
+            print(mail_from, mail_to, mail_text)
+        else:
+            nome = content['nome']
+            idade = content['idade']
+            cidade = content['cidade']
+            estado = content['estado']
+            area = content['area']
+            subarea = content['subarea']
+            tags = content['tags']
+            email = content['email']
+            telefone = content['telefone']
+            linkedin = content['linkedin']
+            github = content['github']
+
+            pg_db_manager.insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, telefone,
+                                           linkedin, github)
+        return
+
     def post(self, candidato_id):
         content = request.get_json()
         
