@@ -45,7 +45,6 @@ class CandidatoController(Resource):
             mail_text = content['plain']
             print(mail_from, mail_to, mail_text)
         else:
-            content.get()
             nome = content.get('nome')
             idade = content.get('idade', 18)
             cidade = content.get('cidade', "Não informado")
