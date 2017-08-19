@@ -1,5 +1,7 @@
 from flask import request
 from flask_restful import Resource, marshal_with, abort
+
+from api.common import hash_generator
 from api.resources.candidato.model import Candidato, candidato_fields
 
 from api.db import pg_db_manager
@@ -59,6 +61,9 @@ class CandidatosController(Resource):
 
             pg_db_manager.insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, telefone,
                                            linkedin, github, filecontent, filetype, filename)
+
+            client_hash = hash_generator.get_new()
+
         return
 
     def put(self, candidato_id):

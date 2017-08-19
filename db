@@ -15,10 +15,13 @@
  github   | character(50) |                                                        | extended |              | 
  status   | integer       |                                                        | plain    |              | 
 
-                                                   Table "public.candidato_obs"
+                                                   T    able "public.candidato_obs"
     Column    |      Type      |                         Modifiers                          | Storage  | Stats target | Description
 --------------+----------------+------------------------------------------------------------+----------+--------------+-------------
  id           | integer        | not null default nextval('candidato_obs_id_seq'::regclass) | plain    |              |
  candidato_id | integer        |                                                            | plain    |              |
  obs          | character(500) |                                                            | extended |              |
 
+select * from linkback;
+ id | id_candidato | used | hash
+----+--------------+------+------
