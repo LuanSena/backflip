@@ -37,7 +37,7 @@ class CandidatoController(Resource):
 
         return candidato
 
-    def put(self):
+    def post(self):
         content = request.get_json()
         if "headers" in content:
             mail_from = content['envelope']['from']
@@ -61,7 +61,7 @@ class CandidatoController(Resource):
                                            linkedin, github)
         return
 
-    def post(self, candidato_id):
+    def put(self, candidato_id):
         content = request.get_json()
         
         candidato = pg_db_manager.select_candidato_by_id(candidato_id)
@@ -90,7 +90,7 @@ class CandidatoStatusController(Resource):
     def __init__(self):
         pass
 
-    def post(self, candidato_id):
+    def put(self, candidato_id):
         content = request.get_json()
         candidato_status = content['status']
         candidato_obs = content['obs']
