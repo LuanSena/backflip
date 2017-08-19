@@ -16,4 +16,5 @@
 
     put - body
         {"id": 0,
-         "status": 1}
+         "status": 1
+         "obs": "big text"}

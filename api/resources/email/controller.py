@@ -33,5 +33,6 @@ class ReceiveMail(Resource):
         content = request.get_json()
         candidato_id = content['id']
         candidato_status = content['status']
-        pg_db_manager.update_candidato_status(candidato_id, candidato_status)
+        candidato_obs = content['obs']
+        pg_db_manager.update_candidato_status(candidato_id, candidato_status, candidato_obs)
         return
