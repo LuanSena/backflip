@@ -28,3 +28,10 @@ class ReceiveMail(Resource):
             pg_db_manager.insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, telefone,
                                            linkedin, github)
         return
+
+    def put(self):
+        content = request.get_json()
+        candidato_id = content['id']
+        candidato_status = content['status']
+        pg_db_manager.update_candidato_status(candidato_id, candidato_status)
+        return

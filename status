@@ -1,0 +1,6 @@
+status:
+    1 = novo
+    2 = pendente
+    3 = em processo
+    4 = contratado
+    5 = eliminado

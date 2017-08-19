@@ -1,0 +1,17 @@
+                                                 Table "public.candidato"
+  Column  |     Type      |                       Modifiers                        | Storage  | Stats target | Description 
+----------+---------------+--------------------------------------------------------+----------+--------------+-------------
+ id       | integer       | not null default nextval('candidato_id_seq'::regclass) | plain    |              | 
+ nome     | character(50) |                                                        | extended |              | 
+ idade    | character(50) |                                                        | extended |              | 
+ cidade   | character(50) |                                                        | extended |              | 
+ estado   | character(50) |                                                        | extended |              | 
+ area     | character(50) |                                                        | extended |              | 
+ subarea  | character(50) |                                                        | extended |              | 
+ tags     | character(50) |                                                        | extended |              | 
+ email    | character(50) |                                                        | extended |              | 
+ telefone | character(50) |                                                        | extended |              | 
+ linkedin | character(50) |                                                        | extended |              | 
+ github   | character(50) |                                                        | extended |              | 
+ status   | integer       |                                                        | plain    |              | 
+

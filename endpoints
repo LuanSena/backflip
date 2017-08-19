@@ -1,0 +1,19 @@
+/email
+
+    post - body
+        {"nome": "luan de sena barbosa",
+        "idade": 23,
+        "cidade": "rio de janeiro",
+        "estado": "rio de janeiro",
+        "area": "tecnologia",
+        "subarea": "dev",
+        "tags": "python, lua, golang",
+        "email": "lbarbosa@stone.com.br",
+        "linkedin": "aaaaaaaaaaaaaaaaaaa",
+        "github": "bbbbbbbbbbbbbbbbbbbb"}
+
+    get
+
+    put - body
+        {"id": 0,
+         "status": 1}
