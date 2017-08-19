@@ -36,29 +36,24 @@ class CandidatosController(Resource):
 
     def post(self):
         content = request.get_json()
-        if "headers" in content:
-            mail_from = content['envelope']['from']
-            mail_to = content['envelope']['to']
-            mail_text = content['plain']
-            print(mail_from, mail_to, mail_text)
-        else:
-            nome = content.get('nome')
-            idade = content.get('idade', 18)
-            cidade = content.get('cidade', "Não informado")
-            estado = content.get('estado', "Não informado")
-            area = content.get('area', "Não informado")
-            subarea = content.get('subarea', "Não informado")
-            tags = content.get('tags', "Não informado")
-            email = content.get('email', "Não informado")
-            telefone = content.get('telefone', "Não informado")
-            linkedin = content.get('linkedin', "Não informado")
-            github = content.get('github', "Não informado")
-            filecontent = content.get('filecontent', "Não informado")
-            filetype = content.get('filetype', "Não informado")
-            filename = content.get('filename', "Não informado")
+        
+        nome = content.get('nome')
+        idade = content.get('idade', 18)
+        cidade = content.get('cidade', "Não informado")
+        estado = content.get('estado', "Não informado")
+        area = content.get('area', "Não informado")
+        subarea = content.get('subarea', "Não informado")
+        tags = content.get('tags', "Não informado")
+        email = content.get('email', "Não informado")
+        telefone = content.get('telefone', "Não informado")
+        linkedin = content.get('linkedin', "Não informado")
+        github = content.get('github', "Não informado")
+        filecontent = content.get('filecontent', "Não informado")
+        filetype = content.get('filetype', "Não informado")
+        filename = content.get('filename', "Não informado")
 
-            pg_db_manager.insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, telefone,
-                                           linkedin, github, filecontent, filetype, filename)
+        pg_db_manager.insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, telefone,
+                                        linkedin, github, filecontent, filetype, filename)
         return
 
     def put(self, candidato_id):
