@@ -4,13 +4,10 @@ from api.resources.candidato.model import Candidato, candidato_fields
 
 from api.db import pg_db_manager
 
-class CandidatosController(Resource):
-    def __init__(self):
-        pass
+class ListaCandidatosController(Resource):
 
     @marshal_with(candidato_fields)
     def get(self):
-
         candidatos = pg_db_manager.select_candidatos()
         if len(candidatos) == 0:
             return []
@@ -21,9 +18,7 @@ class CandidatosController(Resource):
 
         return candidatos
 
-class CandidatoController(Resource):
-    def __init__(self):
-        pass
+class CandidatosController(Resource):
 
     @marshal_with(candidato_fields)
     def get(self, candidato_id):
@@ -60,7 +55,6 @@ class CandidatoController(Resource):
             filetype = content.get('filetype', "Não informado")
             filename = content.get('filename', "Não informado")
 
-
             pg_db_manager.insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, telefone,
                                            linkedin, github, filecontent, filetype, filename)
         return
@@ -91,9 +85,7 @@ class CandidatoController(Resource):
             setattr(candidato, field, content[field])
 
 class CandidatoStatusController(Resource):
-    def __init__(self):
-        pass
-
+    
     def put(self, candidato_id):
         content = request.get_json()
         candidato_status = content['status']
