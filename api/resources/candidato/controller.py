@@ -15,6 +15,10 @@ class CandidatosController(Resource):
         if len(candidatos) == 0:
             return []
 
+        for candidato in candidatos:
+            obs_list = pg_db_manager.select_candidato_obs(candidato.id)
+            candidato.obs = obs_list
+
         return candidatos
 
 class CandidatoController(Resource):
@@ -33,7 +37,31 @@ class CandidatoController(Resource):
 
         return candidato
 
-    def post(self, candidato_id):
+    def post(self):
+        content = request.get_json()
+        if "headers" in content:
+            mail_from = content['envelope']['from']
+            mail_to = content['envelope']['to']
+            mail_text = content['plain']
+            print(mail_from, mail_to, mail_text)
+        else:
+            nome = content['nome']
+            idade = content['idade']
+            cidade = content['cidade']
+            estado = content['estado']
+            area = content['area']
+            subarea = content['subarea']
+            tags = content['tags']
+            email = content['email']
+            telefone = content['telefone']
+            linkedin = content['linkedin']
+            github = content['github']
+
+            pg_db_manager.insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, telefone,
+                                           linkedin, github)
+        return
+
+    def put(self, candidato_id):
         content = request.get_json()
         
         candidato = pg_db_manager.select_candidato_by_id(candidato_id)
@@ -62,7 +90,7 @@ class CandidatoStatusController(Resource):
     def __init__(self):
         pass
 
-    def post(self, candidato_id):
+    def put(self, candidato_id):
         content = request.get_json()
         candidato_status = content['status']
         candidato_obs = content['obs']

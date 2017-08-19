@@ -41,7 +41,7 @@ def update_candidato_status(id: int, status: int, obs):
                 INSERT INTO 
                         candidato_obs (candidato_id, obs)
                 VALUES 
-                    ({id}, 'Novo status:{status}, {obs}');
+                    ({id}, '{obs}');
             """
     try:
         conn = pg_connection.get_db_connection()
