@@ -61,8 +61,8 @@ def update_candidato_status(id: int, status: int, obs):
 def update_candidato(candidato):
     try:
         query = """
-            update candidato set nome = '{nome}', idade = {idade}, cidade = '{cidade}', estado = '{estado}', area = '{area}', subarea = '{subarea}', email = '{email}', telefone = '{telefone}', linkedin = '{linkedin}', github = '{github}'
-            where id = {id};
+            UPDATE candidato SET nome = '{nome}', idade = {idade}, cidade = '{cidade}', estado = '{estado}', area = '{area}', subarea = '{subarea}', email = '{email}', telefone = '{telefone}', linkedin = '{linkedin}', github = '{github}'
+            WHERE id = {id};
         """
         conn = pg_connection.get_db_connection()
         cursor = conn.cursor()
@@ -90,7 +90,7 @@ def select_candidatos():
         conn = pg_connection.get_db_connection()
         
         cursor = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
-        cursor.execute("select * from candidato;")
+        cursor.execute("SELECT * FROM candidato;")
 
         candidatos = []
 
@@ -109,7 +109,7 @@ def select_candidato_by_id(candidato_id):
     try:
         conn = pg_connection.get_db_connection()
         
-        query = "select * from candidato where id = {id};"
+        query = "SELECT * FROM candidato WHERE id = {id};"
 
         cursor = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
         cursor.execute(query.format(id=candidato_id))
