@@ -18,7 +18,7 @@ class ListaCandidatosController(Resource):
 
         return candidatos
 
-class CandidatosController(Resource):
+class GetCandidatoController(Resource):
 
     @marshal_with(candidato_fields)
     def get(self, candidato_id):
@@ -31,6 +31,8 @@ class CandidatosController(Resource):
         candidato.obs = obs_list
 
         return candidato
+
+class CandidatosController(Resource):
 
     def post(self):
         content = request.get_json()
