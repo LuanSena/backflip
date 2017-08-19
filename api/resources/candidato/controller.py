@@ -45,17 +45,18 @@ class CandidatoController(Resource):
             mail_text = content['plain']
             print(mail_from, mail_to, mail_text)
         else:
-            nome = content['nome']
-            idade = content['idade']
-            cidade = content['cidade']
-            estado = content['estado']
-            area = content['area']
-            subarea = content['subarea']
-            tags = content['tags']
-            email = content['email']
-            telefone = content['telefone']
-            linkedin = content['linkedin']
-            github = content['github']
+            content.get()
+            nome = content.get('nome')
+            idade = content.get('idade', 18)
+            cidade = content.get('cidade', "Não informado")
+            estado = content.get('estado', "Não informado")
+            area = content.get('area', "Não informado")
+            subarea = content.get('subarea', "Não informado")
+            tags = content.get('tags', "Não informado")
+            email = content.get('email', "Não informado")
+            telefone = content.get('telefone', "Não informado")
+            linkedin = content.get('linkedin', "Não informado")
+            github = content.get('github', "Não informado")
 
             pg_db_manager.insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, telefone,
                                            linkedin, github)
