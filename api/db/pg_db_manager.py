@@ -9,9 +9,9 @@ def insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, te
                      filecontent="", filetype="", filename=""):
     try:
         query = """
-            insert into candidato (nome, idade, cidade, estado, area, subarea, tags, email, telefone, linkedin, github, filecontent, filetype, filename)
+            insert into candidato (nome, idade, cidade, estado, area, subarea, tags, email, telefone, linkedin, github, filecontent, filetype, filename, status)
             values ('{nome}', '{idade}', '{cidade}', '{estado}', '{area}', '{subarea}', '{tags}', '{email}',
-                    '{telefone}', '{linkedin}', '{github}', '{filecontent}', '{filetype}', '{filename}');
+                    '{telefone}', '{linkedin}', '{github}', '{filecontent}', '{filetype}', '{filename}', 1);
         """
         conn = pg_connection.get_db_connection()
         cursor = conn.cursor()
