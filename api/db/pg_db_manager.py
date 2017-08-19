@@ -4,11 +4,14 @@ from api.db import pg_connection
 
 from api.resources.candidato.model import Candidato
 
-def insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, telefone, linkedin="0", github="0"):
+
+def insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, telefone, linkedin="0", github="0",
+                     filecontent="", filetype="", filename=""):
     try:
         query = """
-            insert into candidato (nome, idade, cidade, estado, area, subarea, tags, email, telefone, linkedin, github)
-            values ('{nome}', '{idade}', '{cidade}', '{estado}', '{area}', '{subarea}', '{tags}', '{email}', '{telefone}', '{linkedin}', '{github}' );
+            insert into candidato (nome, idade, cidade, estado, area, subarea, tags, email, telefone, linkedin, github, filecontent, filetype, filename)
+            values ('{nome}', '{idade}', '{cidade}', '{estado}', '{area}', '{subarea}', '{tags}', '{email}',
+                    '{telefone}', '{linkedin}', '{github}' , {filecontent}, {filetype}, {filename});
         """
         conn = pg_connection.get_db_connection()
         cursor = conn.cursor()
@@ -22,7 +25,10 @@ def insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, te
                                     email=email,
                                     telefone=telefone,
                                     linkedin=linkedin,
-                                    github=github))
+                                    github=github,
+                                    filecontent=filecontent,
+                                    filetype=filetype,
+                                    filename=filename))
         return True
     except Exception as e:
         print(str(e))
@@ -58,6 +64,7 @@ def update_candidato_status(id: int, status: int, obs):
         conn.commit()
         conn.close()
 
+
 def update_candidato(candidato):
     try:
         query = """
@@ -85,11 +92,12 @@ def update_candidato(candidato):
         conn.commit()
         conn.close()
 
+
 def select_candidatos():
     try:
         conn = pg_connection.get_db_connection()
-        
-        cursor = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
+
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         cursor.execute("SELECT * FROM candidato;")
 
         candidatos = []
@@ -105,13 +113,14 @@ def select_candidatos():
         cursor.close()
         conn.close()
 
+
 def select_candidato_by_id(candidato_id):
     try:
         conn = pg_connection.get_db_connection()
-        
+
         query = "SELECT * FROM candidato WHERE id = {id};"
 
-        cursor = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         cursor.execute(query.format(id=candidato_id))
 
         row = cursor.fetchone()
@@ -126,6 +135,7 @@ def select_candidato_by_id(candidato_id):
     finally:
         cursor.close()
         conn.close()
+
 
 def map_candidato(row):
     candidato = Candidato()
@@ -144,19 +154,20 @@ def map_candidato(row):
     candidato.tags = row['tags'].strip()
     return candidato
 
+
 def select_candidato_obs(candidato_id):
     try:
         conn = pg_connection.get_db_connection()
-        
+
         query = "SELECT * FROM candidato_obs WHERE candidato_id = {id};"
 
-        cursor = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         cursor.execute(query.format(id=candidato_id))
 
         obs_list = []
 
         for row in cursor:
-           obs_list.append(row['obs'].strip())
+            obs_list.append(row['obs'].strip())
 
         return obs_list
     except Exception as e:

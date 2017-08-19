@@ -57,9 +57,13 @@ class CandidatoController(Resource):
             telefone = content.get('telefone', "Não informado")
             linkedin = content.get('linkedin', "Não informado")
             github = content.get('github', "Não informado")
+            filecontent = content.get('filecontent', "Não informado")
+            filetype = content.get('filetype', "Não informado")
+            filename = content.get('filename', "Não informado")
+
 
             pg_db_manager.insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, telefone,
-                                           linkedin, github)
+                                           linkedin, github, filecontent, filetype, filename)
         return
 
     def put(self, candidato_id):
