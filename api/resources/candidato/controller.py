@@ -15,6 +15,10 @@ class CandidatosController(Resource):
         if len(candidatos) == 0:
             return []
 
+        for candidato in candidatos:
+            obs_list = pg_db_manager.select_candidato_obs(candidato.id)
+            candidato.obs = obs_list
+
         return candidatos
 
 class CandidatoController(Resource):
