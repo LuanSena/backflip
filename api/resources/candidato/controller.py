@@ -13,17 +13,8 @@ import os
 
 class ListaCandidatosController(Resource):
 
-    @marshal_with(candidato_fields)
     def get(self):
-        candidatos = pg_db_manager.select_candidatos()
-        if len(candidatos) == 0:
-            return []
-
-        for candidato in candidatos:
-            obs_list = pg_db_manager.select_candidato_obs(candidato.id)
-            candidato.obs = obs_list
-
-        return candidatos
+        return pg_db_manager.select_candidatos()
 
 class GetCandidatoController(Resource):
 

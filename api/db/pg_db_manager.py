@@ -4,6 +4,7 @@ from api.db import pg_connection
 
 from api.resources.candidato.model import Candidato
 
+import json
 
 def insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, telefone, linkedin="0", github="0",
                      filecontent="", filetype="", filename=""):
@@ -101,16 +102,34 @@ def select_candidatos():
     try:
         conn = pg_connection.get_db_connection()
 
+        query = """
+            SELECT * FROM candidato;
+        """
+
         cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-        cursor.execute("SELECT * FROM candidato;")
+        cursor.execute(query)
 
-        candidatos = []
+        candidatos = [ row for row in cursor ]
 
-        for row in cursor:
-            candidato = map_candidato(row)
-            candidatos.append(candidato)
+        query2 = """
+            SELECT candidato_id, array_to_json(array_agg(obs)) as list_obs FROM candidato_obs GROUP BY candidato_id;
+        """
 
-        return candidatos
+        cursor2 = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cursor2.execute(query2)
+
+        obs_dict = { row["candidato_id"]: row for row in cursor2 }
+
+        new_candidatos = []
+
+        for candidato in candidatos:
+            list_obs = obs_dict.get(candidato["id"], { "list_obs": [] })["list_obs"]
+
+            new_candidato = dict(candidato)
+            new_candidato["obs"] = list_obs
+            new_candidatos.append(new_candidato)
+
+        return new_candidatos
     except Exception as e:
         print(str(e))
     finally:
