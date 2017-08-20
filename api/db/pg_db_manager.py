@@ -105,7 +105,7 @@ def select_candidatos():
         conn = pg_connection.get_db_connection()
 
         query = """
-            SELECT * FROM candidato;
+            SELECT id, nome, idade, cidade, estado, area, subarea, tags, email, telefone, linkedin, github, responsavel, status FROM candidato;
         """
 
         cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
