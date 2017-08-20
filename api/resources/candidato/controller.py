@@ -34,8 +34,6 @@ class CandidatosController(Resource):
     def post(self):
         try:
             content = request.get_json()
-            
-            print(content)
 
             nome = content.get('nome')
             idade = content.get('idade', 18)
@@ -48,7 +46,7 @@ class CandidatosController(Resource):
             telefone = content.get('telefone', "Não informado")
             linkedin = content.get('linkedin', "Não informado")
             github = content.get('github', "Não informado")
-            filecontent = content.get('filecontent', "Não informado")
+            filecontent = content.get('content', "Não informado")
             filetype = content.get('filetype', "Não informado")
             filename = content.get('filename', "Não informado")
 
@@ -56,6 +54,7 @@ class CandidatosController(Resource):
                                             linkedin, github, filecontent, filetype, filename)
 
             fromEmail = content.get('from')
+            print(fromEmail)
             if fromEmail is None:
                 return
 

@@ -15,9 +15,8 @@ def insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, te
             '{telefone}', '{linkedin}', '{github}', '{filecontent}', '{filetype}', '{filename}', '{responsavel}', 1)
             RETURNING id;
         """
-        conn = pg_connection.get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute(query.format(nome=nome,
+
+        query = query.format(nome=nome,
                                     idade=idade,
                                     cidade=cidade,
                                     estado=estado,
@@ -31,7 +30,13 @@ def insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, te
                                     filecontent=filecontent,
                                     filetype=filetype,
                                     filename=filename,
-                                    responsavel=responsavel))
+                                    responsavel=responsavel)
+
+        print(query)
+
+        conn = pg_connection.get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(query)
                                     
         id_candidato = cursor.fetchone()[0]
 
