@@ -7,12 +7,12 @@ from api.resources.candidato.model import Candidato
 import json
 
 def insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, telefone, linkedin="0", github="0",
-                     filecontent="", filetype="", filename=""):
+                     filecontent="", filetype="", filename="", responsavel=""):
     try:
         query = """
-            INSERT INTO candidato (nome, idade, cidade, estado, area, subarea, tags, email, telefone, linkedin, github, filecontent, filetype, filename, status)
+            INSERT INTO candidato (nome, idade, cidade, estado, area, subarea, tags, email, telefone, linkedin, github, filecontent, filetype, filename, responsavel, status)
             VALUES ('{nome}', '{idade}', '{cidade}', '{estado}', '{area}', '{subarea}', '{tags}', '{email}',
-                    '{telefone}', '{linkedin}', '{github}', '{filecontent}', '{filetype}', '{filename}', 1)
+            '{telefone}', '{linkedin}', '{github}', '{filecontent}', '{filetype}', '{filename}', '{responsavel}', 1);
             RETURNING id;
         """
         conn = pg_connection.get_db_connection()
@@ -30,8 +30,9 @@ def insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, te
                                     github=github,
                                     filecontent=filecontent,
                                     filetype=filetype,
-                                    filename=filename))
-
+                                    filename=filename,
+                                    responsavel=responsavel))
+                                    
         id_candidato = cursor.fetchone()[0]
 
         return id_candidato
@@ -73,7 +74,7 @@ def update_candidato_status(id: int, status: int, obs):
 def update_candidato(candidato):
     try:
         query = """
-            UPDATE candidato SET nome = '{nome}', idade = {idade}, cidade = '{cidade}', estado = '{estado}', area = '{area}', subarea = '{subarea}', email = '{email}', telefone = '{telefone}', linkedin = '{linkedin}', github = '{github}'
+            UPDATE candidato SET nome = '{nome}', idade = {idade}, cidade = '{cidade}', estado = '{estado}', area = '{area}', subarea = '{subarea}', email = '{email}', telefone = '{telefone}', linkedin = '{linkedin}', github = '{github}', responsavel = '{responsavel}'
             WHERE id = {id};
         """
         conn = pg_connection.get_db_connection()
@@ -88,7 +89,8 @@ def update_candidato(candidato):
                                     email=candidato.email,
                                     telefone=candidato.telefone,
                                     linkedin=candidato.linkedin,
-                                    github=candidato.github))
+                                    github=candidato.github,
+                                    responsavel=candidato.responsavel))
         return True
     except Exception as e:
         print(str(e))
@@ -174,6 +176,7 @@ def map_candidato(row):
     candidato.area = row['area'].strip()
     candidato.subarea = row['subarea'].strip()
     candidato.status = row['status']
+    candidato.responsavel = row['responsavel']
     candidato.tags = row['tags'].strip()
     return candidato
 
@@ -198,7 +201,6 @@ def select_candidato_obs(candidato_id):
     finally:
         cursor.close()
         conn.close()
-
 def insert_linkback(hash_candidato, id_candidato):
     try:
         conn = pg_connection.get_db_connection()

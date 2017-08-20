@@ -10,7 +10,7 @@ from api import app
 
 import uuid
 import os
-
+            
 class ListaCandidatosController(Resource):
 
     def get(self):
@@ -88,6 +88,7 @@ class CandidatosController(Resource):
         self.update_attr(candidato, content, 'estado')
         self.update_attr(candidato, content, 'area')
         self.update_attr(candidato, content, 'subarea')
+        self.update_attr(candidato, content, 'responsavel')
         self.update_attr(candidato, content, 'tags')
 
         pg_db_manager.update_candidato(candidato)
