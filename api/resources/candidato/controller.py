@@ -6,6 +6,10 @@ from api.resources.candidato.model import Candidato, candidato_fields
 
 from api.db import pg_db_manager
 
+from api import app
+
+import uuid
+
 class ListaCandidatosController(Resource):
 
     @marshal_with(candidato_fields)
@@ -37,29 +41,38 @@ class GetCandidatoController(Resource):
 class CandidatosController(Resource):
 
     def post(self):
-        content = request.get_json()
-        
-        nome = content.get('nome')
-        idade = content.get('idade', 18)
-        cidade = content.get('cidade', "Não informado")
-        estado = content.get('estado', "Não informado")
-        area = content.get('area', "Não informado")
-        subarea = content.get('subarea', "Não informado")
-        tags = content.get('tags', "Não informado")
-        email = content.get('email', "Não informado")
-        telefone = content.get('telefone', "Não informado")
-        linkedin = content.get('linkedin', "Não informado")
-        github = content.get('github', "Não informado")
-        filecontent = content.get('filecontent', "Não informado")
-        filetype = content.get('filetype', "Não informado")
-        filename = content.get('filename', "Não informado")
+        try:
+            content = request.get_json()
+            
+            nome = content.get('nome')
+            idade = content.get('idade', 18)
+            cidade = content.get('cidade', "Não informado")
+            estado = content.get('estado', "Não informado")
+            area = content.get('area', "Não informado")
+            subarea = content.get('subarea', "Não informado")
+            tags = content.get('tags', "Não informado")
+            email = content.get('email', "Não informado")
+            telefone = content.get('telefone', "Não informado")
+            linkedin = content.get('linkedin', "Não informado")
+            github = content.get('github', "Não informado")
+            filecontent = content.get('filecontent', "Não informado")
+            filetype = content.get('filetype', "Não informado")
+            filename = content.get('filename', "Não informado")
 
-        pg_db_manager.insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, telefone,
-                                        linkedin, github, filecontent, filetype, filename)
+            id = pg_db_manager.insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, telefone,
+                                            linkedin, github, filecontent, filetype, filename)
+            if email is None:
+                return
+            
+            client_hash = uuid.uuid4().hex
+            pg_db_manager.insert_linkback(client_hash, id)
 
-        client_hash = hash_generator.get_new()
+            message = "Ola, complete o seu cadastro utilizando o seguinte link http://127.0.0.1:50000?hash={hash}".format(hash=client_hash)
+            app.send_email(user="hackamunddi@gmail.com", pwd="YcsKJDe7uqVOm7FOjaAR", 
+                recipient=email, subject="Hello HackathonMunddi", body=message)
 
-        return
+        except Exception as e:
+            print(str(e))
 
     def put(self, candidato_id):
         content = request.get_json()

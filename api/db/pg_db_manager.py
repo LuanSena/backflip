@@ -9,9 +9,10 @@ def insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, te
                      filecontent="", filetype="", filename=""):
     try:
         query = """
-            insert into candidato (nome, idade, cidade, estado, area, subarea, tags, email, telefone, linkedin, github, filecontent, filetype, filename, status)
-            values ('{nome}', '{idade}', '{cidade}', '{estado}', '{area}', '{subarea}', '{tags}', '{email}',
-                    '{telefone}', '{linkedin}', '{github}', '{filecontent}', '{filetype}', '{filename}', 1);
+            INSERT INTO candidato (nome, idade, cidade, estado, area, subarea, tags, email, telefone, linkedin, github, filecontent, filetype, filename, status)
+            VALUES ('{nome}', '{idade}', '{cidade}', '{estado}', '{area}', '{subarea}', '{tags}', '{email}',
+                    '{telefone}', '{linkedin}', '{github}', '{filecontent}', '{filetype}', '{filename}', 1)
+            RETURNING id;
         """
         conn = pg_connection.get_db_connection()
         cursor = conn.cursor()
@@ -29,10 +30,13 @@ def insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, te
                                     filecontent=filecontent,
                                     filetype=filetype,
                                     filename=filename))
-        return True
+
+        id_candidato = cursor.fetchone()[0]
+
+        return id_candidato
     except Exception as e:
         print(str(e))
-        return False
+
     finally:
         conn.commit()
         conn.close()
@@ -170,6 +174,24 @@ def select_candidato_obs(candidato_id):
             obs_list.append(row['obs'].strip())
 
         return obs_list
+    except Exception as e:
+        print(str(e))
+    finally:
+        cursor.close()
+        conn.close()
+
+def insert_linkback(hash_candidato, id_candidato):
+    try:
+        conn = pg_connection.get_db_connection()
+
+        query = """
+            INSERT INTO linkback (id_candidato, hash, used) 
+            VALUES ('{id}', '{hash}', FALSE);
+        """
+
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cursor.execute(query.format(id=id_candidato, hash=hash_candidato))
+
     except Exception as e:
         print(str(e))
     finally:
