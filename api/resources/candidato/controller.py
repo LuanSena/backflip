@@ -60,7 +60,8 @@ class CandidatosController(Resource):
             client_hash = uuid.uuid4().hex
             pg_db_manager.insert_linkback(client_hash, candidato_id)
 
-            message = "Ola, complete o seu cadastro utilizando o seguinte link {url}?hash={hash}".format(
+            message = "Ola, obrigado por enviar o curriculo do {nome} para o Aloysius, revise o candidato utilizando o seguinte link {url}?hash={hash}".format(
+                nome=nome,
                 url=os.environ['LINK_BACK_ADDRESS'], 
                 hash=client_hash)
 
