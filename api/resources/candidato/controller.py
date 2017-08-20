@@ -61,10 +61,10 @@ class CandidatosController(Resource):
             pg_db_manager.insert_linkback(client_hash, candidato_id)
 
             subject = "Curriculo do {nome} recebido com sucesso =)".format(nome=nome)
-            body = "Ola, obrigado por enviar o curriculo do {nome} para o Aloysius, revise o candidato utilizando o seguinte link {url}?hash={hash}".format(
+            body = "Ola, obrigado por enviar o curriculo do {nome} para o Aloysius, revise o candidato utilizando o seguinte link {url}?candidato_id={id}".format(
                 nome=nome,
                 url=os.environ['LINK_BACK_ADDRESS'], 
-                hash=client_hash)
+                id=candidato_id)
 
             email.send_email(user="hackamunddi@gmail.com", pwd=os.environ['MAIL_PASSWORD'], 
                 recipient=fromEmail, subject=subject, body=body)
