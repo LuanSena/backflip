@@ -32,8 +32,6 @@ def insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, te
                                     filename=filename,
                                     responsavel=responsavel)
 
-        print(query)
-
         conn = pg_connection.get_db_connection()
         cursor = conn.cursor()
         cursor.execute(query)
@@ -182,6 +180,9 @@ def map_candidato(row):
     candidato.subarea = row['subarea'].strip()
     candidato.status = row['status']
     candidato.responsavel = row['responsavel']
+    candidato.filename = row['filename']
+    candidato.filetype = row['filetype']
+    candidato.filecontent = row['filecontent']
     candidato.tags = row['tags'].strip()
     return candidato
 

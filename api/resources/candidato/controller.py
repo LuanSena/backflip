@@ -54,7 +54,6 @@ class CandidatosController(Resource):
                                             linkedin, github, filecontent, filetype, filename)
 
             fromEmail = content.get('from')
-            print(fromEmail)
             if fromEmail is None:
                 return
 
