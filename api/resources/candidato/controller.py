@@ -35,6 +35,8 @@ class CandidatosController(Resource):
         try:
             content = request.get_json()
             
+            print(content)
+
             nome = content.get('nome')
             idade = content.get('idade', 18)
             cidade = content.get('cidade', "Não informado")
