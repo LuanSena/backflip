@@ -12,7 +12,7 @@ def insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, te
         query = """
             INSERT INTO candidato (nome, idade, cidade, estado, area, subarea, tags, email, telefone, linkedin, github, filecontent, filetype, filename, responsavel, status)
             VALUES ('{nome}', '{idade}', '{cidade}', '{estado}', '{area}', '{subarea}', '{tags}', '{email}',
-            '{telefone}', '{linkedin}', '{github}', '{filecontent}', '{filetype}', '{filename}', '{responsavel}', 1);
+            '{telefone}', '{linkedin}', '{github}', '{filecontent}', '{filetype}', '{filename}', '{responsavel}', 1)
             RETURNING id;
         """
         conn = pg_connection.get_db_connection()

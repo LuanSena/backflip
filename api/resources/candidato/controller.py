@@ -5,12 +5,11 @@ from api.common import hash_generator
 from api.resources.candidato.model import Candidato, candidato_fields
 
 from api.db import pg_db_manager
-
-from api import app
+from api.common import email
 
 import uuid
 import os
-            
+
 class ListaCandidatosController(Resource):
 
     def get(self):
@@ -43,7 +42,7 @@ class CandidatosController(Resource):
             area = content.get('area', "Não informado")
             subarea = content.get('subarea', "Não informado")
             tags = content.get('tags', "Não informado")
-            email = content.get('email', "Não informado")
+            email_cliente = content.get('email', "Não informado")
             telefone = content.get('telefone', "Não informado")
             linkedin = content.get('linkedin', "Não informado")
             github = content.get('github', "Não informado")
@@ -51,7 +50,7 @@ class CandidatosController(Resource):
             filetype = content.get('filetype', "Não informado")
             filename = content.get('filename', "Não informado")
 
-            candidato_id = pg_db_manager.insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, telefone,
+            candidato_id = pg_db_manager.insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email_cliente, telefone,
                                             linkedin, github, filecontent, filetype, filename)
 
             fromEmail = content.get('from')
@@ -65,7 +64,7 @@ class CandidatosController(Resource):
                 url=os.environ['LINK_BACK_ADDRESS'], 
                 hash=client_hash)
 
-            app.send_email(user="hackamunddi@gmail.com", pwd=os.environ['MAIL_PASSWORD'], 
+            email.send_email(user="hackamunddi@gmail.com", pwd=os.environ['MAIL_PASSWORD'], 
                 recipient=fromEmail, subject="Hello HackathonMunddi", body=message)
 
         except Exception as e:
