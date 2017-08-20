@@ -8,8 +8,6 @@ import requests, os
 app = Flask(__name__)
 app.register_blueprint(candidato_blueprint)
 
-CORS(app)
-
 def send_email(user, pwd, recipient, subject, body):
     import smtplib
 
@@ -25,3 +23,5 @@ def send_email(user, pwd, recipient, subject, body):
         server.close()
     except Exception as e:
         print(str(e))
+
+CORS(app)
