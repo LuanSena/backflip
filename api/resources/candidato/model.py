@@ -14,6 +14,7 @@ candidato_fields = {
     'subarea':      fields.String,
     'status':       fields.String,
     'tags':         fields.String,
+    'responsavel':  fields.String,
     'filename':     fields.String,
     'filetype':     fields.String,
     'filecontent':  fields.String,
