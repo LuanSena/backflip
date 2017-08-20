@@ -9,6 +9,7 @@ from api.db import pg_db_manager
 from api import app
 
 import uuid
+import os
 
 class ListaCandidatosController(Resource):
 
@@ -59,17 +60,22 @@ class CandidatosController(Resource):
             filetype = content.get('filetype', "Não informado")
             filename = content.get('filename', "Não informado")
 
-            id = pg_db_manager.insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, telefone,
+            candidato_id = pg_db_manager.insert_candidato(nome, idade, cidade, estado, area, subarea, tags, email, telefone,
                                             linkedin, github, filecontent, filetype, filename)
-            if email is None:
-                return
-            
-            client_hash = uuid.uuid4().hex
-            pg_db_manager.insert_linkback(client_hash, id)
 
-            message = "Ola, complete o seu cadastro utilizando o seguinte link http://127.0.0.1:50000?hash={hash}".format(hash=client_hash)
-            app.send_email(user="hackamunddi@gmail.com", pwd="YcsKJDe7uqVOm7FOjaAR", 
-                recipient=email, subject="Hello HackathonMunddi", body=message)
+            fromEmail = content.get('from')
+            if fromEmail is None:
+                return
+
+            client_hash = uuid.uuid4().hex
+            pg_db_manager.insert_linkback(client_hash, candidato_id)
+
+            message = "Ola, complete o seu cadastro utilizando o seguinte link {url}?hash={hash}".format(
+                url=os.environ['LINK_BACK_ADDRESS'], 
+                hash=client_hash)
+
+            app.send_email(user="hackamunddi@gmail.com", pwd=os.environ['MAIL_PASSWORD'], 
+                recipient=fromEmail, subject="Hello HackathonMunddi", body=message)
 
         except Exception as e:
             print(str(e))
