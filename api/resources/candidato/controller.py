@@ -60,13 +60,14 @@ class CandidatosController(Resource):
             client_hash = uuid.uuid4().hex
             pg_db_manager.insert_linkback(client_hash, candidato_id)
 
-            message = "Ola, obrigado por enviar o curriculo do {nome} para o Aloysius, revise o candidato utilizando o seguinte link {url}?hash={hash}".format(
+            subject = "Curriculo do {nome} recebido com sucesso =)".format(nome=nome)
+            body = "Ola, obrigado por enviar o curriculo do {nome} para o Aloysius, revise o candidato utilizando o seguinte link {url}?hash={hash}".format(
                 nome=nome,
                 url=os.environ['LINK_BACK_ADDRESS'], 
                 hash=client_hash)
 
             email.send_email(user="hackamunddi@gmail.com", pwd=os.environ['MAIL_PASSWORD'], 
-                recipient=fromEmail, subject="Hello HackathonMunddi", body=message)
+                recipient=fromEmail, subject=subject, body=body)
 
         except Exception as e:
             print(str(e))
